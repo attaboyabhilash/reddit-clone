@@ -88,7 +88,19 @@ let UserResolvers = class UserResolvers {
             }
             const hashedPassword = yield argon2_1.default.hash(options.password);
             const user = em.create(User_1.User, { username: options.username, password: hashedPassword });
-            yield em.persistAndFlush(user);
+            try {
+                yield em.persistAndFlush(user);
+            }
+            catch (error) {
+                if (error.code === '23505' || error.detail.includes('already exists')) {
+                    return {
+                        errors: [{
+                                field: 'username',
+                                message: 'username already exists'
+                            }]
+                    };
+                }
+            }
             return { user };
         });
     }
