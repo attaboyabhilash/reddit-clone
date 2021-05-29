@@ -2,6 +2,7 @@
 # Client
 /reddit-client/build
 /reddit-client/node_modules
+/reddit-client/.next
 
 
 # Server
