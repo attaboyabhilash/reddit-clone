@@ -68,7 +68,7 @@ UserResponse = __decorate([
     type_graphql_1.ObjectType()
 ], UserResponse);
 let UserResolvers = class UserResolvers {
-    register(options, { em }) {
+    register(options, { em, req }) {
         return __awaiter(this, void 0, void 0, function* () {
             if (options.username.length <= 3) {
                 return {
@@ -101,10 +101,11 @@ let UserResolvers = class UserResolvers {
                     };
                 }
             }
+            req.session.userId = user._id;
             return { user };
         });
     }
-    login(options, { em }) {
+    login(options, { em, req }) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield em.findOne(User_1.User, { username: options.username });
             if (!user) {
@@ -124,6 +125,7 @@ let UserResolvers = class UserResolvers {
                         }]
                 };
             }
+            req.session.userId = user._id;
             return { user };
         });
     }

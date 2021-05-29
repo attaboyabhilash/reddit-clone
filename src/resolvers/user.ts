@@ -32,7 +32,7 @@ export class UserResolvers {
     @Mutation(() => UserResponse) 
     async register(
         @Arg('options') options: UsernamePasswordInput, 
-        @Ctx() { em }: MyContext): Promise<UserResponse> {
+        @Ctx() { em, req }: MyContext): Promise<UserResponse> {
         if(options.username.length <= 3) {
             return {
                 errors: [{
@@ -63,13 +63,16 @@ export class UserResolvers {
                 }
             }   
         }
+
+        req.session.userId = user._id 
+
         return {user}
     }
 
     @Mutation(() => UserResponse) 
     async login(
         @Arg('options') options: UsernamePasswordInput, 
-        @Ctx() { em }: MyContext): Promise<UserResponse> {
+        @Ctx() { em, req }: MyContext): Promise<UserResponse> {
         const user = await em.findOne(User, {username: options.username})
         if(!user) {
             return {
@@ -88,6 +91,8 @@ export class UserResolvers {
                 }]
             }
         }
+
+        req.session.userId = user._id 
     
         return {user}
     }
