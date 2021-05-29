@@ -1,2 +1,10 @@
-/build
-/node_modules
+
+# Client
+/reddit-client/build
+/reddit-client/node_modules
+
+
+# Server
+
+/reddit-server/build
+/reddit-server/node_modules
