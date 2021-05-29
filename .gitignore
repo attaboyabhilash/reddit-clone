@@ -8,3 +8,7 @@
 
 /reddit-server/build
 /reddit-server/node_modules
+
+#extra
+
+/.vscode
